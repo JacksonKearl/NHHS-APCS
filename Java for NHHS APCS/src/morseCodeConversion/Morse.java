@@ -1,5 +1,5 @@
 package morseCodeConversion;
 
-public class Mosre {
+public class Morse {
 
 }
