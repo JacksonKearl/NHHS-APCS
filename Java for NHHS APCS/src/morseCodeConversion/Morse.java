@@ -2,7 +2,7 @@ package morseCodeConversion;
 
 public class Morse {
 
-	private static String key = "A(.-) B(-...) C(-.-.) D(-..) E(.) F(..-.) G(--.) H(....) I(..) J(.---) K(-.-) L(.-..) M(--) N(-.) O(---) P(.--.) Q(--.-) R(.-.) S(...) T(-) U(..-) V(...-) W(.--) X(-..-) Y(-.--) Z(--..) ";
+	private static String key = "A(.-) B(-...) C(-.-.) D(-..) E(.) F(..-.) G(--.) H(....) I(..) J(.---) K(-.-) L(.-..) M(--) N(-.) O(---) P(.--.) Q(--.-) R(.-.) S(...) T(-) U(..-) V(...-) W(.--) X(-..-) Y(-.--) Z(--..) 1(.----) 2(..---) 3(...--) 4(....-) 5(.....) 6(-....) 7(--...) 8(---..) 9(----.) 0(-----) ";
 	private static int numWords;
 	private static int numLetters;
 
@@ -20,11 +20,11 @@ public class Morse {
 			}
 			alpha += " ";
 		}
-		System.out.println(alpha);
+		//System.out.println(alpha);
 		return alpha;
 	}
 
-	private static String cleanUp(String s) {
+	public static String cleanUp(String s) {
 		s = s.trim();
 		String cleansed = "";
 		for (int i = 0; i< s.length(); i++){
@@ -34,8 +34,7 @@ public class Morse {
 				cleansed += c;
 			}
 			else{
-				//return null;
-				throw new java.lang.NumberFormatException("Input may only contain dot, dash, and space charachters '.', '-', ' '.");
+				return null;
 			}
 		}
 		return cleansed;
@@ -95,15 +94,16 @@ public class Morse {
 		
 		for (int letterIndex = 0; letterIndex<string.length(); letterIndex++){
 			char letter = string.charAt(letterIndex);
-			if (letter > 'A' && letter < 'Z'){
+			if ((letter >= 'A' && letter <= 'Z') || (letter >='0' && letter <= '9')){
 				int startIndexInKey = key.indexOf(letter);
 				int endIndex = key.indexOf(')', startIndexInKey);
 				String morserep = key.substring(startIndexInKey+2, endIndex);
 				morse += morserep;
 			}
+			else if (letter == ' ') morse += '/';
 			morse += " ";
 		}
-		System.out.println(morse);
+		//System.out.println(morse);
 		return morse;
 	}
 }
