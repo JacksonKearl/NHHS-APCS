@@ -20,7 +20,6 @@ public class Morse {
 			}
 			alpha += " ";
 		}
-		//System.out.println(alpha);
 		return alpha;
 	}
 
@@ -49,49 +48,22 @@ public class Morse {
 
 		do {
 			sepPoint = s.indexOf(sep, prePoint);
-
 			if (sepPoint == -1)
 				sepPoint = s.length();
-
 			str[word] = s.substring(prePoint, sepPoint).toUpperCase();
-			//System.out.println(str[word]);
 			word++;
-
 			prePoint = sepPoint+sep.length();
 		} while (sepPoint < s.length());
-
 		if  (sep.equals("  "))
 			numWords = word;
 		else if (sep.equals(" "));
 		numLetters = word;
-
 		return str;
 	}
 
 	public static String toMorse(String string) {
 		string = string.toUpperCase();
-		/*
-		String[] wordsArray = tokenizeWithSeparator(string, " ");
 		String morse = "";
-
-		for (int wordIndex = 0; wordIndex<numWords; wordIndex++){
-
-			for (int letterIndex = 0; letterIndex<wordsArray[wordIndex].length(); letterIndex++){
-				char letter = wordsArray[wordIndex].charAt(letterIndex);
-				if (letter > 'A' && letter < 'Z'){
-					int startIndexInKey = key.indexOf(letter);
-					int endIndex = key.indexOf(')', startIndexInKey);
-					String morserep = key.substring(startIndexInKey+2, endIndex);
-					morse += morserep;
-				}
-				morse += " ";
-			}
-			morse += " ";
-		}
-		*/
-		
-		String morse = "";
-		
 		for (int letterIndex = 0; letterIndex<string.length(); letterIndex++){
 			char letter = string.charAt(letterIndex);
 			if ((letter >= 'A' && letter <= 'Z') || (letter >='0' && letter <= '9')){
@@ -103,7 +75,6 @@ public class Morse {
 			else if (letter == ' ') morse += '/';
 			morse += " ";
 		}
-		//System.out.println(morse);
 		return morse;
 	}
 }
