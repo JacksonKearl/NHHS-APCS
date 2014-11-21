@@ -13,7 +13,7 @@ public class Morse {
 		String alpha = "";
 		for (int wordIndex = 0; wordIndex<numWords; wordIndex++){
 			String[] lettersArray = tokenizeWithSeparator(wordsArray[wordIndex], " ");
-
+			
 			for (int letterIndex = 0; letterIndex <numLetters; letterIndex++){
 				String morseVal = lettersArray[letterIndex];
 				alpha += key.charAt(((key.indexOf("(" + morseVal + ")"))-1));
@@ -54,25 +54,33 @@ public class Morse {
 			word++;
 			prePoint = sepPoint+sep.length();
 		} while (sepPoint < s.length());
+		
 		if  (sep.equals("  "))
 			numWords = word;
+			
 		else if (sep.equals(" "));
 		numLetters = word;
+		
 		return str;
 	}
 
 	public static String toMorse(String string) {
 		string = string.toUpperCase();
+		
 		String morse = "";
+		
 		for (int letterIndex = 0; letterIndex<string.length(); letterIndex++){
 			char letter = string.charAt(letterIndex);
+			
 			if ((letter >= 'A' && letter <= 'Z') || (letter >='0' && letter <= '9')){
 				int startIndexInKey = key.indexOf(letter);
 				int endIndex = key.indexOf(')', startIndexInKey);
+				
 				String morserep = key.substring(startIndexInKey+2, endIndex);
 				morse += morserep;
 			}
 			else if (letter == ' ') morse += '/';
+			
 			morse += " ";
 		}
 		return morse;
