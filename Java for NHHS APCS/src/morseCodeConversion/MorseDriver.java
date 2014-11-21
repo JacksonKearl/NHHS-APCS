@@ -42,6 +42,6 @@ public class MorseDriver {
 				optionSelected = "0";
 			}
 
-		}while (!(optionSelected.equals("0")));
+		}while (optionSelected.equals("2") || optionSelected.equals("1"));
 	}
 }
