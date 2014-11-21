@@ -19,7 +19,8 @@ public class MorseDriver {
 		else {                                 
 			//Morse To Alpha
 			 String morse = JOptionPane.showInputDialog(null, "What's the morse?");
-			 while (Morse.cleanUp(morse) == null){
+			 morse = Morse.cleanUp(morse);
+			 while (morse == null){
 				 JOptionPane.showMessageDialog(null,
 						    "Input must be only dots, dashes, and spaces.",
 						    "Error",

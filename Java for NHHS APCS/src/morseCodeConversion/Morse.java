@@ -7,7 +7,6 @@ public class Morse {
 	private static int numLetters;
 
 	public static String toAlpha(String s){
-		s = cleanUp(s);
 		String[] wordsArray = tokenizeWithSeparator(s, "  ");
 
 		String alpha = "";
