@@ -7,17 +7,19 @@ public class Morse {
 	private static int numWords;
 	private static int numLetters;
 
-	public static String toAlpha(String s){
-		String[] wordsArray = tokenizeWithSeparator(s, "  ");
+	public static String toAlpha(String s, char sep){
+		String wordDelimit = (sep == ' ')? "  " : " " + sep + " ";
+		String[] wordsArray = tokenizeWithSeparator(s, wordDelimit, sep);
 
 		String alpha = "";
 		
 		for (int wordIndex = 0; wordIndex<numWords; wordIndex++){
-			String[] lettersArray = tokenizeWithSeparator(wordsArray[wordIndex], " ");
+			String[] lettersArray = tokenizeWithSeparator(wordsArray[wordIndex], " ", sep);
 
 			try{
 				for (int letterIndex = 0; letterIndex <numLetters; letterIndex++){
 					String morseVal = lettersArray[letterIndex];
+					System.out.println(morseVal);
 					alpha += key.charAt(((key.indexOf("(" + morseVal + ")"))-1));
 				}
 			} catch (StringIndexOutOfBoundsException e){
@@ -28,12 +30,13 @@ public class Morse {
 		return alpha;
 	}
 
-	public static String cleanUp(String s) {
+	public static String cleanUp(String s, char dem) {
 		s = s.trim();
 		String cleansed = "";
 		for (int i = 0; i< s.length(); i++){
 			char c = s.charAt(i);
 			String validChars = " .-";
+			validChars += dem;
 			if (validChars.indexOf(c)!=-1){
 				cleansed += c;
 			}
@@ -44,7 +47,7 @@ public class Morse {
 		return cleansed;
 	}
 
-	private static String[] tokenizeWithSeparator(String s, String sep){
+	private static String[] tokenizeWithSeparator(String s, String sep, char wordDem){
 		String[] str = new String[s.length()];
 
 		int sepPoint = 0;
@@ -59,8 +62,9 @@ public class Morse {
 			word++;
 			prePoint = sepPoint+sep.length();
 		} while (sepPoint < s.length());
-
-		if  (sep.equals("  "))
+		
+		String wordDelimit = (wordDem == ' ')? "  " : " " + wordDem + " ";
+		if  (sep.equals(wordDelimit))
 			numWords = word;
 
 		else if (sep.equals(" "));

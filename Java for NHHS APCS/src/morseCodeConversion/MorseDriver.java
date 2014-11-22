@@ -43,16 +43,16 @@ public class MorseDriver {
 				case '3':                                
 					//Morse To Alpha
 					String morse = JOptionPane.showInputDialog(null, "What's the morse?");
-					morse = Morse.cleanUp(morse);
+					morse = Morse.cleanUp(morse, wordDelimeter);
 					while (morse == null){
 						JOptionPane.showMessageDialog(null,
 								"Input must be only dots, dashes, and spaces.",
 								"Error",
 								JOptionPane.ERROR_MESSAGE);
 						morse = JOptionPane.showInputDialog(null, "Try again. What's the morse?");
-						morse = Morse.cleanUp(morse);
+						morse = Morse.cleanUp(morse, wordDelimeter);
 					}
-					returnval = Morse.toAlpha(morse);
+					returnval = Morse.toAlpha(morse, wordDelimeter);
 					JOptionPane.showMessageDialog(null,
 							returnval);
 
@@ -64,5 +64,6 @@ public class MorseDriver {
 			}
 
 		}while (optionSelected >= '1');
+		System.exit(0);
 	}
 }
