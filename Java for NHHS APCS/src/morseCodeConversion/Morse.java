@@ -1,5 +1,6 @@
 package morseCodeConversion;
 
+import javax.sound.midi.*;
 
 public class Morse {
 
@@ -12,7 +13,7 @@ public class Morse {
 		String[] wordsArray = tokenizeWithSeparator(s, wordDelimit, sep);
 
 		String alpha = "";
-		
+
 		for (int wordIndex = 0; wordIndex<numWords; wordIndex++){
 			String[] lettersArray = tokenizeWithSeparator(wordsArray[wordIndex], " ", sep);
 
@@ -62,7 +63,7 @@ public class Morse {
 			word++;
 			prePoint = sepPoint+sep.length();
 		} while (sepPoint < s.length());
-		
+
 		String wordDelimit = (wordDem == ' ')? "  " : " " + wordDem + " ";
 		if  (sep.equals(wordDelimit))
 			numWords = word;
@@ -95,7 +96,46 @@ public class Morse {
 		return morse;
 	}
 
-	public static void configure(){
+	public static void play(String morse){
+		char[] notes = morse.toCharArray();
+		int unit = 100;
+		int mult = 0;
+		try {
+			Synthesizer synthesizer = MidiSystem.getSynthesizer();
+			synthesizer.open();
+			MidiChannel channel = synthesizer.getChannels()[0];
+			channel.programChange(0, 80);
+			for (char note : notes) {
+				switch (note){
+				case '.':
+					mult = 1;
+					break;
+				case '-':
+					mult = 3;
+					break;
+				case ' ':
+					mult = -3;
+					break;
+				}
+				try{
+					if (mult > 0){
+						channel.noteOn(60, 30);
+						Thread.sleep(mult*unit);
+					}
+					else 
+						Thread.sleep(mult*-1*unit);
+					
+					channel.allNotesOff();
+					Thread.sleep(100);
 
+				} catch (InterruptedException e) {
+					break;
+				} finally {
+					
+				}
+			}
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 }

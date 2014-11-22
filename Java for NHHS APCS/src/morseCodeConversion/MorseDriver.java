@@ -3,9 +3,38 @@ package morseCodeConversion;
 import javax.swing.JOptionPane;
 
 public class MorseDriver {
+
+	static char wordDelimeter;
+
+	public static void toMorse(){
+		String alpha = JOptionPane.showInputDialog(null, "What's the sentence?");
+		final String returnval = Morse.toMorse(alpha, wordDelimeter);
+
+
+		Object[] options = { "Cancel", "Play" };
+		Object selection = JOptionPane.showOptionDialog(null, returnval, null,
+				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+				null, options, options[0]);
+
+		char optionSelected = selection.toString().charAt(0);
+		if (optionSelected != '1')
+			return;
+		else {	
+			Runnable r = new Runnable() {
+				public void run() {
+					Morse.play(returnval);
+				}
+			};
+			
+			new Thread(r).start();
+			JOptionPane.showMessageDialog(null,
+					"Playing: "+ returnval);
+		}
+	}
+
 	public static void main(String args[]){
 		char optionSelected;
-		char wordDelimeter = '/';
+		wordDelimeter = '/';
 		do {
 			try{
 				Object[] options = { "Cancel", "Options", "Alpha to Morse", "Morse to Alpha" };
@@ -26,7 +55,7 @@ public class MorseDriver {
 					defaultVal += wordDelimeter;
 					try{
 						wordDelimeter = JOptionPane.showInputDialog(null, 
-							"Choose char to sperate words when converting to Morse?", defaultVal).charAt(0);
+								"Choose char to sperate words when converting to Morse?", defaultVal).charAt(0);
 					} catch (StringIndexOutOfBoundsException e){
 						wordDelimeter = ' ';
 					}
@@ -34,10 +63,7 @@ public class MorseDriver {
 
 				case '2':
 					//Alpha to Morse
-					String alpha = JOptionPane.showInputDialog(null, "What's the sentence?");
-					returnval = Morse.toMorse(alpha, wordDelimeter);
-					JOptionPane.showMessageDialog(null,
-							returnval);
+					toMorse();
 					break;
 
 				case '3':                                
