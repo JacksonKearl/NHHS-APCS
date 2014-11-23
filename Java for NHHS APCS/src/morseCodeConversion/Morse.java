@@ -21,7 +21,9 @@ public class Morse {
 				for (int letterIndex = 0; letterIndex <numLetters; letterIndex++){
 					String morseVal = lettersArray[letterIndex];
 					System.out.println(morseVal);
-					alpha += key.charAt(((key.indexOf("(" + morseVal + ")"))-1));
+					morseVal = cleanUp(morseVal, ' ');
+					if (morseVal != null)
+						alpha += key.charAt(((key.indexOf("(" + morseVal + ")"))-1));
 				}
 			} catch (StringIndexOutOfBoundsException e){
 				return "Error: Invalid morse.";
@@ -34,18 +36,23 @@ public class Morse {
 	public static String cleanUp(String s, char dem) {
 		s = s.trim();
 		String cleansed = "";
-		for (int i = 0; i< s.length(); i++){
-			char c = s.charAt(i);
-			String validChars = " .-";
-			validChars += dem;
-			if (validChars.indexOf(c)!=-1){
-				cleansed += c;
+		if (s.length()>0){
+			for (int i = 0; i< s.length(); i++){
+				char c = s.charAt(i);
+				String validChars = " .-";
+				validChars += dem;
+				if (validChars.indexOf(c)!=-1){
+					cleansed += c;
+				}
+				else{
+					return null;
+				}
 			}
-			else{
-				return null;
-			}
+			return cleansed;
 		}
-		return cleansed;
+		else {
+			return null;
+		}
 	}
 
 	private static String[] tokenizeWithSeparator(String s, String sep, char wordDem){
@@ -59,9 +66,11 @@ public class Morse {
 			sepPoint = s.indexOf(sep, prePoint);
 			if (sepPoint == -1)
 				sepPoint = s.length();
-			str[word] = s.substring(prePoint, sepPoint).toUpperCase();
-			word++;
-			prePoint = sepPoint+sep.length();
+			if (s.length() != 0){
+				str[word] = s.substring(prePoint, sepPoint).toUpperCase();
+				word++;
+				prePoint = sepPoint+sep.length();
+			}
 		} while (sepPoint < s.length());
 
 		String wordDelimit = (wordDem == ' ')? "  " : " " + wordDem + " ";
@@ -96,13 +105,15 @@ public class Morse {
 		return morse;
 	}
 
-	public static void play(String morse){
-		char[] notes = morse.toCharArray();
+	public static void play(String s){
+		char[] notes = s.toCharArray();
 		int unit = 100;
 		int mult = 0;
+
 		try {
 			Synthesizer synthesizer = MidiSystem.getSynthesizer();
 			synthesizer.open();
+
 			MidiChannel channel = synthesizer.getChannels()[0];
 			channel.programChange(0, 80);
 			for (char note : notes) {
@@ -116,26 +127,33 @@ public class Morse {
 				case ' ':
 					mult = -3;
 					break;
+				default:
+					mult = 0;
+					break;
 				}
 				try{
 					if (mult > 0){
 						channel.noteOn(60, 30);
 						Thread.sleep(mult*unit);
 					}
-					else 
+
+					else {
 						Thread.sleep(mult*-1*unit);
-					
-					channel.allNotesOff();
+					}
+
+					channel.noteOff(60,30);
 					Thread.sleep(100);
 
 				} catch (InterruptedException e) {
-					break;
-				} finally {
-					
-				}
+					e.printStackTrace();
+				} 
+
 			}
 		} catch (MidiUnavailableException e) {
 			e.printStackTrace();
 		}
 	}
+
+
 }
+

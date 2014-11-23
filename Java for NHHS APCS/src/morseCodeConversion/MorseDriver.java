@@ -1,5 +1,6 @@
 package morseCodeConversion;
 
+import javax.sound.midi.MidiUnavailableException;
 import javax.swing.JOptionPane;
 
 public class MorseDriver {
@@ -22,7 +23,17 @@ public class MorseDriver {
 		else {	
 			Runnable r = new Runnable() {
 				public void run() {
-					Morse.play(returnval);
+					try {
+						final MorsePlayback morse = new MorsePlayback();
+						char[] arr = returnval.toCharArray();
+						for (char c : arr){
+							morse.play(c);
+						}
+					} 
+					catch (MidiUnavailableException e) {
+						e.printStackTrace();
+					}
+					
 				}
 			};
 			
