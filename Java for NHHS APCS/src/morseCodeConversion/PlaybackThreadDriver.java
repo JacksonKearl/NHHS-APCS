@@ -1,18 +1,29 @@
 package morseCodeConversion;
 
 import javax.sound.midi.MidiUnavailableException;
+import javax.swing.JButton;
 
 public class PlaybackThreadDriver implements Runnable {
 
 	private volatile boolean isRunning = true;
-
+	private volatile String text;
+	private volatile JButton button;
+	
+	public void setText(String t){
+		text = t;
+	}
+	
+	public void setButton(JButton b){
+		button = b;
+	}
+	
 	public void run() {
 		isRunning = true;
 
 
 		try {
 			final MorsePlayback morse = new MorsePlayback();
-			char[] arr = MainMenu.morseText.getText().toCharArray();
+			char[] arr = text.toCharArray();
 			for (char c : arr){
 				if (!isRunning) {
 					break;
@@ -22,7 +33,7 @@ public class PlaybackThreadDriver implements Runnable {
 				}
 			}
 			isRunning = true;
-			MainMenu.playButton.setText("Play Morse");
+			button.setText("Play");
 		} 
 		catch (MidiUnavailableException e) {
 			e.printStackTrace();
