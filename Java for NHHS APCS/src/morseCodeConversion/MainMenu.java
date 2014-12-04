@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JScrollPane;
 
 public class MainMenu extends JFrame {
@@ -30,7 +31,7 @@ public class MainMenu extends JFrame {
 	private JLabel demLabel;
 	public static JButton playButton;
 	private Thread thread;
-	private Runnable r;
+	private PlaybackThreadDriver r;
 
 	private char delimiter = '/';
 	private JScrollPane scrollPane;
@@ -71,75 +72,80 @@ public class MainMenu extends JFrame {
 
 		JLabel englishLabel = new JLabel("English:");
 		contentPane.add(englishLabel, "cell 2 0,alignx center,aligny center");
-		
+
 		scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, "cell 0 1,grow");
-		
-				morseText = new JTextArea();
-				scrollPane.setViewportView(morseText);
-				morseText.setLineWrap(true);
-				morseText.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyReleased(KeyEvent arg0) {
+
+		morseText = new JTextArea();
+		scrollPane.setViewportView(morseText);
+		morseText.setLineWrap(true);
+		morseText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if (morseText.getText().length()>0){
+					char key = morseText.getText().substring(morseText.getText().length()-1, morseText.getText().length()).charAt(0);
+					String valid = " .-";
+					valid += delimiter;
+					if (valid.indexOf(key) != -1){
 						if (morseText.getText().length()>0){
-							char key = morseText.getText().substring(morseText.getText().length()-1, morseText.getText().length()).charAt(0);
-							String valid = " .-";
-							valid += delimiter;
-							if (valid.indexOf(key) != -1){
-								if (morseText.getText().length()>0){
-									String engVal = Morse.cleanUp(morseText.getText(), delimiter);
-									engVal = Morse.toAlpha(engVal, delimiter);
+							String engVal = Morse.cleanUp(morseText.getText(), delimiter);
+							engVal = Morse.toAlpha(engVal, delimiter);
 
 
-									if (engVal.equals("Error: Invalid morse."))
-										errorLabel.setText(engVal);
-									else {
-										englishText.setText(engVal);
-										errorLabel.setText("");
-									}
-								}
-							}
+							if (engVal.equals("Error: Invalid morse."))
+								errorLabel.setText(engVal);
 							else {
-								morseText.setText(morseText.getText().substring(0, morseText.getText().length()-1));
+								englishText.setText(engVal);
+								errorLabel.setText("");
 							}
-						}
-						else {
-							englishText.setText("");
 						}
 					}
-				});
-		
+					else {
+						morseText.setText(morseText.getText().substring(0, morseText.getText().length()-1));
+					}
+				}
+				else {
+					englishText.setText("");
+				}
+			}
+		});
+
 		scrollPane_1 = new JScrollPane();
 		contentPane.add(scrollPane_1, "cell 2 1,grow");
-		
-				englishText = new JTextArea();
-				scrollPane_1.setViewportView(englishText);
-				englishText.setLineWrap(true);
-				englishText.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyReleased(KeyEvent arg0) {
-						morseText.setText(Morse.toMorse(englishText.getText(), delimiter));
-					}
-				});
+
+		englishText = new JTextArea();
+		scrollPane_1.setViewportView(englishText);
+		englishText.setLineWrap(true);
+		englishText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				morseText.setText(Morse.toMorse(englishText.getText(), delimiter));
+			}
+		});
 
 		r = new PlaybackThreadDriver();
+		r.setText(morseText.getText());
+		r.setButton(playButton);
 
 
 		playButton = new JButton("Play Morse");
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				r.setText(morseText.getText());
+				r.setButton(playButton);
 				if (playButton.getText().equals("Stop")){
 					((PlaybackThreadDriver) r).kill();
-					playButton.setText("Play Morse");
+					playButton.setText("Play");
 				}
 				else {
 					thread = new Thread(r);
+					
 					thread.start();
 					playButton.setText("Stop");
 				}
 			}
-
 		});
+		
 		contentPane.add(playButton, "cell 0 2,alignx center");
 
 		errorLabel = new JLabel("");

@@ -19,7 +19,7 @@ public class ClickableJava {
 	private JLabel enteredMorse;
 	private JLabel output;
 	private JButton playButton;
-	private Runnable r;
+	private PlaybackThreadDriver r;
 	private Thread thread;
 
 	/**
@@ -73,16 +73,19 @@ public class ClickableJava {
 		});
 		
 		r = new PlaybackThreadDriver();
-		
+
 		playButton = new JButton("Play");
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				r.setText(enteredMorse.getText());
+				r.setButton(playButton);
 				if (playButton.getText().equals("Stop")){
 					((PlaybackThreadDriver) r).kill();
-					playButton.setText("Play Morse");
+					playButton.setText("Play");
 				}
 				else {
 					thread = new Thread(r);
+					
 					thread.start();
 					playButton.setText("Stop");
 				}
