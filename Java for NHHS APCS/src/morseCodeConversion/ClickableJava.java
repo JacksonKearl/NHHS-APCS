@@ -53,10 +53,10 @@ public class ClickableJava {
 		frame.setBounds(100, 100, 358, 234);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new MigLayout("", "[58.00,right][201.00,center][]", "[][][][][][][]"));
-		
+
 		JLabel enterMorseLbl = new JLabel("Enter morse:");
 		frame.getContentPane().add(enterMorseLbl, "cell 1 0");
-		
+
 		JButton addDash = new JButton("-");
 		addDash.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,14 +64,14 @@ public class ClickableJava {
 			}
 		});
 		frame.getContentPane().add(addDash, "cell 0 1");
-		
+
 		JButton addDot = new JButton(".");
 		addDot.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				enteredMorse.setText(enteredMorse.getText()+".");
 			}
 		});
-		
+
 		r = new PlaybackThreadDriver();
 
 		playButton = new JButton("Play");
@@ -85,19 +85,19 @@ public class ClickableJava {
 				}
 				else {
 					thread = new Thread(r);
-					
+
 					thread.start();
 					playButton.setText("Stop");
 				}
 			}
 		});
-		
+
 		enteredMorse = new JLabel("");
 		enteredMorse.setBackground(Color.WHITE);
 		frame.getContentPane().add(enteredMorse, "cell 1 1");
 		frame.getContentPane().add(playButton, "cell 2 1");
 		frame.getContentPane().add(addDot, "cell 0 2");
-		
+
 		JButton newLttr = new JButton("New Letter");
 		newLttr.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -105,7 +105,7 @@ public class ClickableJava {
 			}
 		});
 		frame.getContentPane().add(newLttr, "cell 1 3");
-		
+
 		JButton newWrd = new JButton("New Word");
 		newWrd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -113,7 +113,21 @@ public class ClickableJava {
 			}
 		});
 		frame.getContentPane().add(newWrd, "cell 1 4");
-		
+
+		JButton viewKey = new JButton("View Key");
+		viewKey.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					JavaKey window = new JavaKey();
+					window.frame.setVisible(true);
+				} catch (Exception eep) {
+					eep.printStackTrace();
+				}
+			}
+
+		});
+		frame.getContentPane().add(viewKey, "cell 2 3");
+
 		JButton translate = new JButton("Translate");
 		translate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,7 +135,7 @@ public class ClickableJava {
 			}
 		});
 		frame.getContentPane().add(translate, "cell 1 5");
-		
+
 		output = new JLabel("");
 		frame.getContentPane().add(output, "cell 1 6");
 	}
