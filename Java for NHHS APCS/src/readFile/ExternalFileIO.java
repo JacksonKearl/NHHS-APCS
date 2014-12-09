@@ -1,21 +1,23 @@
 package readFile;
 
+
+import java.io.IOException;
 import java.util.*;
 class ExternalFileIO
 {
 	FileInput in;
 	FileOutput out;
-	public ExternalFileIO( String sourceFile, String newFile )
+	public ExternalFileIO( String sourceFile, String newFile ) throws IOException
 	{
 		in = new FileInput( sourceFile );
 		out = new FileOutput( newFile );
 	}
-	public ExternalFileIO( String sourceFile, String newFile, boolean same )
+	public ExternalFileIO( String sourceFile, String newFile, boolean same ) throws IOException
 	{
 		in = new FileInput( sourceFile );
 		out = new FileOutput( newFile, true );
 	}
-	public void capLetters()
+	public void capLetters() throws IOException
 	{
 		System.out.println("Hello, it's: ");
 		System.out.println(new Date());
@@ -33,7 +35,7 @@ class ExternalFileIO
 		out.close();
 		in.close();
 	}
-	public int countWords()
+	public int countWords() throws IOException
 	{
 		String word;
 		int count = 0;
@@ -48,7 +50,7 @@ class ExternalFileIO
 		in.close();
 		return count-1;
 	}
-	public static void main (String[] args)
+	public static void main (String[] args) throws IOException
 	{
 		String source = "cities.txt";
 		String target = "after.txt";
