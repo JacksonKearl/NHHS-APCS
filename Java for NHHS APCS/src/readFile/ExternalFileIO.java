@@ -43,8 +43,8 @@ class ExternalFileIO
 		{
 			word = in.readWord();
 			count++;
-			//System.out.println( "word = " + word + "\t" + "count = " +
-			//count );
+			System.out.println( "word = " + word + "\t" + "count = " +
+					count );
 		}
 		out.close();
 		in.close();
