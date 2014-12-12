@@ -4,8 +4,8 @@ import defaults.SavitchIn;
 
 public class Driver
 {
-	private static final double RATIO_SIDE = 3/Math.sqrt(3);
-	private static final double DEGREE_OFFSET = 15;
+	private static final double RATIO_SIDE = 1.6;
+	private static final double DEGREE_OFFSET = 4;
 	
 	public static void main ( String args [] )
 	{
@@ -22,8 +22,9 @@ public class Driver
 			//draw Circle
 			run.drawMeACircle(radius);
 			//draw Koch curve
-			length = radius * RATIO_SIDE;
-			run.inPosition(length,radius);
+			length = radius * 3/Math.sqrt(3);
+			run.inPosition(length,radius,DEGREE_OFFSET*k);
+			
 			//run.offsetTurn(DEGREE_OFFSET);
 			for(int h = 0; h < 3; h++)
 			{
@@ -31,7 +32,7 @@ public class Driver
 				run.turnKoch();
 			}
 			//reset radius
-			radius = length/3;
+			radius = length/RATIO_SIDE;
 			
 		}
 	}
