@@ -1,8 +1,6 @@
-package christmasTest;
-
+package christmasTest;                                //Jackson Kearl
 public class Holiday {
-
-	private final int CONSOLE_WIDTH = 130;
+	private final int CONSOLE_WIDTH = 80;
 
 	public Holiday() {}
 
@@ -11,7 +9,7 @@ public class Holiday {
 		drawBases(rows/4);
 	}
 
-	private void drawLeaves(int currentRow) {
+	private void drawLeaves(int currentRow) {        //Look! Recursion!
 		if (currentRow == 0)
 			return;
 		else {
@@ -21,14 +19,14 @@ public class Holiday {
 		}
 	}
 
-	private String createRow(int currentRow) {
+	private String createRow(int currentRow) {        //Recursive.
 		if (currentRow == 1)
 			return "*";
 		else
 			return createRow(--currentRow) + "^*";
 	}
 
-	private void drawBases(int i) {
+	private void drawBases(int i) {                   //What??? Even more recursion??
 		if (i == 0) 
 			return;
 		else {
@@ -42,16 +40,15 @@ public class Holiday {
 	private void centerPrint(String toPrint) {
 		int centerLine = CONSOLE_WIDTH/2;
 		int halfOffset = toPrint.length()/2;
-		int offsetFromLeft = centerLine-halfOffset;
-
-		System.out.println(gapOf(offsetFromLeft)+toPrint);
+		int offset = centerLine-halfOffset;
+		
+		System.out.println(gapOf(offset)+toPrint);
 	}
-
-	private String gapOf(int length){
+	
+	private String gapOf(int length){                 //This is recursive too??   
 		if (length == 0) 
 			return "";
 		else
 			return " " + gapOf(--length); 
 	}
-
-}
+}                                                     //Not a single loop.

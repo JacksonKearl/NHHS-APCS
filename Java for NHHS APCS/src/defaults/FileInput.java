@@ -1,5 +1,4 @@
-package readFile;
-
+package defaults;
 
 /*
 *   Class   FileInput
