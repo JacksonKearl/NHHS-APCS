@@ -8,10 +8,12 @@ public class Time {
 	private int seconds;
 	private boolean isAM;
 	
-	public void setWithStandardString(String s) {
-		isAM = (s.substring(s.length()-2) == "AM");
-		
+	public Time(String s) {
+		isAM = (s.substring(s.length()-2).equals("AM"));
+		s = s.substring(0, s.length()-3);
 		String[] subUnits = s.split(":");
+		
+		setWithStandardTime(Integer.parseInt(subUnits[0]), Integer.parseInt(subUnits[1]), Integer.parseInt(subUnits[2]), isAM);
 	}
 	
 	private void setWithStandardTime(int h, int m, int s, boolean am) {
@@ -23,7 +25,7 @@ public class Time {
 		calculateMillTime();
 	}
 	
-	public void setWithMillTime(int millTime){
+	public Time(int millTime){
 		mill = millTime;
 		
 		calculateStandardTime();
@@ -51,8 +53,8 @@ public class Time {
 		mill += minutes;
 	}
 	
-	public String toStandardString(Time t){
-		return hours + ":" + minutes + ":" + seconds + (isAM ? " AM" : " PM"); 
+	public String toStandardString(){
+		return String.format("%02d:%02d:%02d%s", hours, minutes, seconds, (isAM ? " AM" : " PM"));
 	}
 	
 	public String toMillString(){
