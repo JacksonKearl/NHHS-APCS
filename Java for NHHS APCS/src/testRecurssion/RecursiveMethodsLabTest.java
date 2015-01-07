@@ -34,3 +34,16 @@ public class RecursiveMethodsLabTest {
 	}
 
 }
+
+/*Brief explanation:
+ * Think of multiplying binary numbers:  100011 * 101
+ * Just as 234 * 21 can be broken up into (234 * 20) + (234 * 1),
+ * the above binary can be broken up into (100011 * 100) + (100011 * 0) + (100011 * 1).
+ * The shouldMult function looks at the specified place value in the second number,
+ * and decides if it should be added to the product, based on if it is a 0 or 1.
+ * In the above instance, (100011 * 0) would not be added, because shouldMuld would return false
+ * for the arguments 101, 1. In the other cases [namely 100011 * 100 and 100011 * 1], multiplication
+ * proceeds as it normally would with decimal numbers, in that one may simply add a 0 to the tail
+ * end of a number when multiplying by 10 or 00 when by 100, and so on. This is achieved through use
+ * of the "<<" operator, which will add "pos" 0's to the end of the partial product each recursion
+ */
