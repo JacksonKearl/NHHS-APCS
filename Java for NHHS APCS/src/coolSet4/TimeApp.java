@@ -3,12 +3,17 @@ package coolSet4;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class TimeApp {
 
@@ -53,6 +58,12 @@ public class TimeApp {
 		frame.getContentPane().add(lblMillitaryTime, "cell 0 0,alignx center");
 		
 		millField = new JTextField();
+		millField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				standField.setText("");
+			}
+		});
 		frame.getContentPane().add(millField, "cell 0 1,growx");
 		millField.setColumns(10);
 		
@@ -66,10 +77,13 @@ public class TimeApp {
 		JButton btnCalculate = new JButton("Calculate");
 		btnCalculate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (standField.getText() != null) {
-					
-				} else if (millField.getText() != null) {
-					
+				if (!(standField.getText().equals(""))) {
+					Time t = new Time(standField.getText());
+					millField.setText(t.toMillString());
+				} else if (!(millField.getText().equals(""))) {
+					int i = Integer.parseInt(millField.getText());
+					Time t = new Time(i);
+					standField.setText(t.toStandardString());
 				}
 			}
 		});

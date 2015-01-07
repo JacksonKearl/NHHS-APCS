@@ -1,5 +1,7 @@
 package testRecurssion;
 
+//Jackson Kearl
+
 public class RecursiveMethodsLabTest {
 
 	public String displayLettersBack(String word) {
@@ -19,7 +21,7 @@ public class RecursiveMethodsLabTest {
 		return i>0;
 	}
 
-	private long bitwiseMultiply(long num1, long num2, int pos) {
+	private long bitwiseMultiply(long num1, long num2, int pos) {    //bitwise, baby
 		long partialMult = shouldMult(num2, pos) ? num1 << pos : 0;
 		
 		if (pos == 0) {
@@ -28,7 +30,7 @@ public class RecursiveMethodsLabTest {
 		return partialMult + bitwiseMultiply(num1, num2, pos-1);
 	}
 
-	private boolean shouldMult(long num2, int pos) {
+	private boolean shouldMult(long num2, int pos) {                //thats what I'm talking about
 		long r = num2 & (1 << pos);
 		return r != 0;
 	}
